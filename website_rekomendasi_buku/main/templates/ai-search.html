@@ -73,7 +73,7 @@
       pagination.hidden = true
       results.innerHTML = ''
     
-      const data = await apiFetch(`/api/search/?q=${encodeURIComponent(q)}&page=${page}`)
+      const data = await apiFetch(`/api/ai-recommendations/?q=${encodeURIComponent(q)}&page=${page}`)
     
       if (!data || !data.books.length) {
         empty.hidden = false

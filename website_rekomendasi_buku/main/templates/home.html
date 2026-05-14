@@ -2,11 +2,11 @@
 {% load static %}
 
 {% block title %}
-  BookAI — Temukan Buku Favoritmu
+  BookAI - Temukan Buku Favoritmu
 {% endblock %}
 
 {% block content %}
-  <!-- ── Hero ────────────────────────────────────────────────── -->
+  <!-- Hero(pahlawan prabowo) -->
   <section class="hero">
     <div class="hero-img hero-img--left">
       <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&q=80" alt="Buku dan kopi" />
@@ -28,7 +28,7 @@
     </div>
 
     <div class="hero-img hero-img--right">
-      <img src="https://images.unsplash.com/photo-1677696795873-24e5dd3f1872?w=400&q=80" alt="AI" />
+      <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=500&h=500&fit=crop" alt="Stack of colorful books" />
     </div>
   </section>
 
@@ -49,7 +49,7 @@
         <h2 class="section-title">buku populer</h2>
         <p class="section-sub">Buku-buku paling populer dan banyak dibaca oleh pengguna.</p>
       </div>
-      <a href="{% url 'ai_search' %}" class="view-all-link">View all &rsaquo;</a>
+      <a href="{% url 'popular_books_page' %}" class="view-all-link">View all &rsaquo;</a>
     </div>
     <div id="popularBooks" class="books-grid"></div>
   </section>

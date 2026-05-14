@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  Buku Populer — BookAI
+{% endblock %}
+
+{% block content %}
+  <section class="page-hero">
+    <div class="page-hero-inner">
+      <h1 class="page-hero-title">Buku Populer</h1>
+      <p class="page-hero-sub">Koleksi buku-buku paling populer dan banyak dibaca.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div id="popularStats" class="search-stats" hidden></div>
+    <div id="popularResults" class="books-grid"></div>
+    <div id="popularEmpty" class="empty-state" hidden>
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="11" cy="11" r="8" />
+        <line x1="21" y1="21" x2="16.65" y2="16.65" />
+      </svg>
+      <p>Tidak ada buku populer. Coba lagi nanti.</p>
+    </div>
+  </section>
+{% endblock %}
+
+{% block extra_scripts %}
+  <script>
+    const results = document.getElementById('popularResults')
+    const empty = document.getElementById('popularEmpty')
+    const stats = document.getElementById('popularStats')
+    
+    ;(async () => {
+      try {
+        results.innerHTML = ''
+        empty.hidden = true
+        stats.hidden = true
+        
+        const data = await apiFetch('/api/popular/?limit=50')
+        
+        if (!data || !data.books.length) {
+          empty.hidden = false
+          return
+        }
+        
+        stats.textContent = `Menampilkan ${data.books.length} buku populer`
+        stats.hidden = false
+        
+        renderBooks(results, data.books)
+      } catch (error) {
+        console.error('Error loading popular books:', error)
+        empty.hidden = false
+      }
+    })()
+  </script>
+{% endblock %}
