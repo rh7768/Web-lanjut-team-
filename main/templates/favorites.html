@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Favorit Saya — BookAI{% endblock %}
+
+{% block content %}
+
+<section class="page-hero">
+    <div class="page-hero-inner">
+        <h1 class="page-hero-title">
+            Favorit Saya
+        </h1>
+
+    <p class="page-hero-sub">
+        Koleksi buku yang telah kamu simpan.
+    </p>
+</div>
+
+</section>
+
+<section class="section">
+
+{% if favorites %}
+
+    <p class="section-sub" style="margin-bottom:20px;">
+        {{ favorites|length }} buku tersimpan
+    </p>
+
+    <div class="favorites-grid">
+
+        {% for book in favorites %}
+
+        <div
+            class="favorite-card"
+            onclick='openBookModal({
+                key: "{{ book.key|escapejs }}",
+                title: "{{ book.title|escapejs }}",
+                author: "{{ book.author|escapejs }}",
+                year: "{{ book.year|default:""|escapejs }}",
+                language: "{{ book.language|default:""|escapejs }}",
+                cover_url: "{{ book.cover_url|default:""|escapejs }}",
+                description: "{{ book.description|escapejs }}",
+                is_favorite: true
+            })'
+        >
+
+            <div class="favorite-cover">
+
+                {% if book.cover_url %}
+                    <img
+                        src="{{ book.cover_url }}"
+                        alt="{{ book.title }}"
+                        loading="lazy"
+                    >
+                {% else %}
+                    <div class="cover-fallback">
+                        <svg
+                            width="44"
+                            height="44"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.7"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                        >
+                            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                        </svg>
+                    </div>
+                {% endif %}
+
+            </div>
+
+            <div class="favorite-content">
+                <div class="favorite-body">
+
+                    <h3>
+                        {{ book.title }}
+                    </h3>
+
+                    <p class="favorite-author">
+                        {{ book.author }}
+                    </p>
+
+                    {% if book.ai_summary %}
+                        <span class="badge-ai">
+                            Ringkasan AI
+                        </span>
+                    {% else %}
+                        <span class="badge-book">
+                            Buku
+                        </span>
+                    {% endif %}
+
+                    <p class="favorite-summary">
+
+                        {% if book.ai_summary %}
+                            {{ book.ai_summary|truncatewords:25 }}
+                        {% else %}
+                            {{ book.description|truncatewords:25 }}
+                        {% endif %}
+
+                    </p>
+
+                </div>
+
+                <div class="favorite-meta">
+                    <span class="favorite-date">
+                        <svg
+                            width="15"
+                            height="15"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            aria-hidden="true"
+                        >
+                            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                        Disimpan {{ book.saved_at|date:"j M Y" }}
+                    </span>
+
+                    <button
+                        type="button"
+                        class="favorite-menu"
+                        aria-label="Menu favorit"
+                        onclick="event.stopPropagation()"
+                    >
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+{% else %}
+
+    <div class="empty-state">
+
+        <svg
+            width="48"
+            height="48"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+        >
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+
+        <p>
+            Belum ada buku favorit.
+        </p>
+
+        <a href="{% url 'ringkasan_ai' %}">
+            Cari Buku Sekarang
+        </a>
+
+    </div>
+
+{% endif %}
+
+</section>
+
+{% endblock %}

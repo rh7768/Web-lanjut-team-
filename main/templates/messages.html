@@ -1,0 +1,106 @@
+{% extends 'base.html' %}
+
+{% block title %}Pesan - BookAI{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <h1 class="page-hero-title">Pesan</h1>
+    <p class="page-hero-sub">
+      {% if is_admin_view %}
+        Kelola feedback yang dikirim pengguna.
+      {% else %}
+        Lihat feedback dan balasan admin.
+      {% endif %}
+    </p>
+  </div>
+</section>
+
+<section class="section messages-section">
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="alert alert--{{ msg.tags }}">{{ msg }}</div>
+    {% endfor %}
+  {% endif %}
+
+  {% if contacts %}
+    <div class="messages-list">
+      {% for contact in contacts %}
+        <article class="message-card">
+          <div class="message-card__header">
+            <div class="message-person">
+              <div class="message-avatar">{{ contact.name|slice:":1"|upper }}</div>
+              <div>
+                <div class="message-title-row">
+                  <h2 class="message-card__name">{{ contact.name }}</h2>
+                  <span class="message-badge {% if contact.admin_reply %}message-badge--done{% endif %}">
+                    {% if contact.admin_reply %}Dibalas{% else %}Baru{% endif %}
+                  </span>
+                </div>
+                <p class="message-card__meta">
+                  {{ contact.email }}
+                  {% if contact.user %}
+                    <span>oleh {{ contact.user.username }}</span>
+                  {% endif %}
+                </p>
+              </div>
+            </div>
+            <time class="message-card__date" datetime="{{ contact.created_at|date:'c' }}">
+              {{ contact.created_at|date:"d M Y H:i" }}
+            </time>
+          </div>
+
+          <div class="message-card__body">{{ contact.message }}</div>
+
+          {% if contact.admin_reply %}
+            <section class="message-reply">
+              <div class="message-reply__top">
+                <strong>Balasan admin</strong>
+                {% if contact.replied_at %}
+                  <span>{{ contact.replied_at|date:"d M Y H:i" }}</span>
+                {% endif %}
+              </div>
+              <p>{{ contact.admin_reply }}</p>
+            </section>
+          {% else %}
+            <p class="message-status">Belum ada balasan admin.</p>
+          {% endif %}
+
+          {% if is_admin_view %}
+            <div class="message-admin-panel">
+              <form
+                id="reply-form-{{ contact.id }}"
+                method="POST"
+                action="{% url 'reply_message' contact.id %}"
+                class="message-reply-form"
+              >
+                {% csrf_token %}
+                <label class="form-label" for="reply-{{ contact.id }}">Balasan admin</label>
+                <textarea
+                  id="reply-{{ contact.id }}"
+                  name="admin_reply"
+                  class="form-input form-textarea message-reply-input"
+                  rows="3"
+                  required
+                >{{ contact.admin_reply }}</textarea>
+              </form>
+
+              <div class="message-admin-controls">
+                <button type="submit" form="reply-form-{{ contact.id }}" class="btn btn-primary">Simpan Balasan</button>
+                <form method="POST" action="{% url 'delete_message' contact.id %}" onsubmit="return confirm('Hapus pesan ini?');">
+                  {% csrf_token %}
+                  <button type="submit" class="btn btn-danger">Hapus Pesan</button>
+                </form>
+              </div>
+            </div>
+          {% endif %}
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <p>Belum ada pesan.</p>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

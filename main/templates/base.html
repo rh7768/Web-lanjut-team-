@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}BookAI{% endblock %}</title>
+  {% load static %}
+  <link rel="stylesheet" href="{% static 'css/style.css' %}?v=999">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+  {% include 'components/navbar.html' %}
+  {% include 'components/book_modal.html' %}
+  {% include 'components/login_required_modal.html' %}
+
+  <main>
+    {% block content %}{% endblock %}
+  </main>
+
+  <script src="{% static 'js/app.js' %}?v=1001"></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>

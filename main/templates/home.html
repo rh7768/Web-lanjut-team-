@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  BookAI - Temukan Buku Favoritmu
+{% endblock %}
+
+{% block content %}
+  <!-- Hero(pahlawan prabowo) -->
+  <section class="hero">
+    <div class="hero-img hero-img--left">
+      <img src="https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&q=80" alt="Buku dan kopi" />
+    </div>
+
+    <div class="hero-center">
+      <h1 class="hero-title">Discover your<br />next favorite book<br />with AI</h1>
+      <p class="hero-sub">AI recommends books based on your interests and mood.</p>
+
+      <div class="hero-search">
+        <span class="search-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+        </span>
+        <input id="heroSearchInput" type="text" placeholder="Search books, authors, or topics..." autocomplete="off" />
+      </div>
+    </div>
+
+    <div class="hero-img hero-img--right">
+      <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?w=500&h=500&fit=crop" alt="Stack of colorful books" />
+    </div>
+  </section>
+
+  <!-- ── Buku yang Kamu Cari ──────────────────────────────────── -->
+  <section class="section" id="searchSection" hidden>
+    <h2 class="section-title">buku yang anda cari</h2>
+    <p class="section-sub">Temukan buku berdasarkan judul atau penulis yang Anda cari.</p>
+    <div id="searchResults" class="books-grid"></div>
+    <div id="searchEmpty" class="empty-state" hidden>
+      <p>Tidak ada buku ditemukan untuk pencarian ini.</p>
+    </div>
+  </section>
+
+  <!-- ── Buku Populer ─────────────────────────────────────────── -->
+  <section class="section">
+    <div class="section-header">
+      <div>
+        <h2 class="section-title">buku populer</h2>
+        <p class="section-sub">Buku-buku paling populer dan banyak dibaca oleh pengguna.</p>
+      </div>
+      <a href="{% url 'popular_books_page' %}" class="view-all-link">View all &rsaquo;</a>
+    </div>
+    <div id="popularBooks" class="books-grid books-grid--compact"></div>
+  </section>
+{% endblock %}
+
+{% block extra_scripts %}
+  <script>
+    // ── Hero search ────────────────────────────────────────────────
+    const heroInput = document.getElementById('heroSearchInput')
+    const searchSection = document.getElementById('searchSection')
+    const searchResults = document.getElementById('searchResults')
+    const searchEmpty = document.getElementById('searchEmpty')
+    
+    let searchTimer = null
+    
+    heroInput.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') doSearch()
+    })
+    
+    heroInput.addEventListener('input', () => {
+      clearTimeout(searchTimer)
+      searchTimer = setTimeout(doSearch, 500)
+    })
+    
+    async function doSearch() {
+      const q = heroInput.value.trim()
+    
+      if (!q) {
+        searchSection.hidden = true
+        return
+      }
+    
+      searchSection.hidden = false
+    
+      searchEmpty.hidden = true
+    
+      searchResults.innerHTML = ''
+    
+      try {
+        const data = await apiFetch(`/api/search/?q=${encodeURIComponent(q)}`)
+    
+        if (!data || !data.books.length) {
+          searchEmpty.hidden = false
+    
+          return
+        }
+    
+        renderBooks(searchResults, data.books)
+      } catch (error) {
+        searchEmpty.hidden = false
+      }
+    }
+    // ── Popular books ──────────────────────────────────────────────
+    ;(async () => {
+      const data = await apiFetch('/api/popular/?detail=1')
+      if (data && data.books.length) {
+        renderBooks(document.getElementById('popularBooks'), data.books, true)
+      }
+    })()
+  </script>
+{% endblock %}

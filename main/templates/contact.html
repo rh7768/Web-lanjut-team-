@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Feedback — BookAI{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <h1 class="page-hero-title">Feedback</h1>
+    <p class="page-hero-sub">Ada saran atau pertanyaan? Kami senang mendengarnya.</p>
+  </div>
+</section>
+
+<section class="section section--narrow">
+  {% if messages %}
+    {% for msg in messages %}
+      <div class="alert alert--{{ msg.tags }}">{{ msg }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <div class="contact-card">
+    <form method="POST" action="{% url 'contact' %}">
+      {% csrf_token %}
+
+      <div class="form-group">
+        <label class="form-label">Nama</label>
+        <input type="text" name="name" class="form-input" placeholder="Nama kamu" required value="{{ name|default:'' }}" />
+      </div>
+
+      <!-- Email diambil otomatis dari akun yang sedang login -->
+
+      <div class="form-group">
+        <label class="form-label">Pesan</label>
+        <textarea id="message" name="message" class="form-input form-textarea" placeholder="Tulis pesan atau feedback kamu..." rows="5" required>{{ message|default:'' }}</textarea>
+        <div id="char-count" style="margin-top:6px;font-size:.88rem;color:var(--text-muted)">0 / 200 karakter</div>
+      </div>
+
+      <button type="submit" class="btn btn-primary btn--full">Kirim Pesan</button>
+    </form>
+  </div>
+</section>
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const textarea = document.getElementById('message');
+  const charCountEl = document.getElementById('char-count');
+  const MAX = 200;
+
+  function countChars(text) {
+    if (!text) return 0;
+    return text.length;
+  }
+
+  function update() {
+    let chars = countChars(textarea.value);
+    if (chars > MAX) {
+      // Trim to MAX characters
+      textarea.value = textarea.value.slice(0, MAX);
+      chars = MAX;
+    }
+    charCountEl.textContent = chars + ' / ' + MAX + ' karakter';
+  }
+
+  if (textarea) {
+    update();
+    textarea.addEventListener('input', update);
+    textarea.addEventListener('paste', function(){ setTimeout(update, 50); });
+  }
+});
+</script>
+{% endblock %}
+{% endblock %}

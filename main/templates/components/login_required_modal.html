@@ -1,0 +1,21 @@
+<!-- Login Required Modal -->
+<div id="loginRequiredModal" class="modal-overlay" role="dialog" aria-modal="true" hidden>
+  <div class="modal-box modal-box--small">
+    <button class="modal-close" onclick="closeLoginModal()" aria-label="Tutup">&times;</button>
+
+    <div class="login-required-body">
+      <div class="login-required-icon">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+        </svg>
+      </div>
+      <h3 class="login-required-title">Login Diperlukan</h3>
+      <p class="login-required-desc">Silakan login terlebih dahulu untuk menambahkan buku ke favorit.</p>
+      <div class="login-required-actions">
+        <a href="/login/" class="btn btn-primary">Login Sekarang</a>
+        <a href="/register/" class="btn btn-outline">Daftar Baru</a>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,63 @@
+<!-- ───────────────── BOOK DETAIL MODAL ───────────────── -->
+
+<div id="bookModal" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitle" hidden>
+  <div class="modal-box">
+    <!-- CLOSE BUTTON -->
+    <button class="modal-close" onclick="closeBookModal()" aria-label="Tutup">&times;</button>
+
+    <div class="modal-body">
+      <!-- BOOK COVER -->
+      <div class="modal-cover">
+        <!-- REAL COVER -->
+        <img id="modalCoverImg" src="" alt="Cover Buku" style="display: none;" />
+
+        <!-- FALLBACK COVER -->
+        <div id="modalCoverFallback" class="cover-fallback" style="display: none;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+          </svg>
+        </div>
+      </div>
+
+      <!-- BOOK INFO -->
+      <div class="modal-info">
+        <!-- TITLE -->
+        <h2 id="modalTitle" class="modal-title"></h2>
+
+        <!-- META -->
+        <div class="modal-meta">
+          <div class="meta-row">
+            <span class="meta-label">Author</span>
+            <span class="meta-sep">:</span>
+            <span id="modalAuthor" class="meta-value"></span>
+          </div>
+
+          <div class="meta-row">
+            <span class="meta-label">Tahun</span>
+            <span class="meta-sep">:</span>
+            <span id="modalYear" class="meta-value"></span>
+          </div>
+
+          <div class="meta-row">
+            <span class="meta-label">Bahasa</span>
+            <span class="meta-sep">:</span>
+            <span id="modalLanguage" class="meta-value"></span>
+          </div>
+        </div>
+
+        <!-- DESCRIPTION -->
+        <p id="modalDescription" class="modal-desc"></p>
+
+        <!-- FAVORITE BUTTON -->
+        <button id="modalFavBtn" class="btn-favorite" onclick="toggleFavoriteFromModal()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+          </svg>
+
+          <span id="modalFavText">Tambah ke Favorit</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

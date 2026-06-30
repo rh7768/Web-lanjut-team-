@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/otp.css' %}">
+
+<div class="otp-container">
+    <div class="otp-card">
+
+        <div class="otp-icon">
+            ✉️
+        </div>
+
+        <h2>Verifikasi Kode OTP</h2>
+
+        <p>
+            Silakan cek email Anda. Kami telah mengirimkan kode verifikasi ke
+            <strong>{{ email }}</strong>
+        </p>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <div class="otp-inputs">
+                <input type="text" name="otp1" maxlength="1" class="otp-input">
+                <input type="text" name="otp2" maxlength="1" class="otp-input">
+                <input type="text" name="otp3" maxlength="1" class="otp-input">
+                <input type="text" name="otp4" maxlength="1" class="otp-input">
+                <input type="text" name="otp5" maxlength="1" class="otp-input">
+                <input type="text" name="otp6" maxlength="1" class="otp-input">
+            </div>
+
+            {% if messages %}
+                {% for message in messages %}
+                    <p style="color:red;">
+                        {{ message }}
+                    </p>
+                {% endfor %}
+            {% endif %}
+
+            <p class="timer">
+                Kode OTP berlaku selama beberapa menit.
+            </p>
+
+            <button type="submit" class="verify-btn">
+                Verifikasi OTP
+            </button>
+        </form>
+
+        <a href="{% url 'register' %}" class="back-link">
+            Kembali ke Daftar
+        </a>
+
+    </div>
+</div>
+
+{% endblock %}

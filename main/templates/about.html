@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About Us — BookAI{% endblock %}
+
+{% block content %}
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <h1 class="page-hero-title">About BookAI</h1>
+    <p class="page-hero-sub">Platform rekomendasi buku yang membantu pembaca menemukan bacaan sesuai minat, kebutuhan, dan suasana hati.</p>
+  </div>
+</section>
+
+<section class="section about-overview">
+  <div class="about-intro">
+    <div class="about-copy">
+      <span class="about-kicker">Tentang proyek kami</span>
+      <h2 class="about-heading">Membuat pencarian buku terasa lebih personal dan mudah dipahami.</h2>
+      <p class="about-text">BookAI dibuat sebagai website rekomendasi buku berbasis API dan AI. Pengguna dapat mencari buku, melihat daftar populer, menyimpan favorit, dan memakai AI Search untuk mengubah kebutuhan bacaan menjadi kata kunci yang lebih relevan.</p>
+    </div>
+
+    <div class="about-summary">
+      <div class="summary-item">
+        <span class="summary-number">01</span>
+        <strong>OpenLibrary API</strong>
+        <p>Mengambil data buku, penulis, tahun terbit, dan cover untuk ditampilkan di website.</p>
+      </div>
+      <div class="summary-item">
+        <span class="summary-number">02</span>
+        <strong>DeepSeek AI</strong>
+        <p>Membantu memahami maksud pencarian pengguna sebelum data buku ditampilkan.</p>
+      </div>
+      <div class="summary-item">
+        <span class="summary-number">03</span>
+        <strong>Fitur pengguna</strong>
+        <p>Mendukung login, favorit, feedback, pencarian buku, dan halaman buku populer.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section about-process">
+  <div class="section-header">
+    <div>
+      <h2 class="section-title">cara kerja bookai</h2>
+      <p class="section-sub">Satu alur sederhana untuk menghubungkan AI dengan data buku.</p>
+    </div>
+  </div>
+
+  <div class="process-grid">
+    <article class="process-card">
+      <span class="process-step">1</span>
+      <h3>Tulis kebutuhan bacaan</h3>
+      <p>Pengguna bisa mengetik kebutuhan natural seperti belajar Python, buku psikologi, atau novel fantasi.</p>
+    </article>
+    <article class="process-card">
+      <span class="process-step">2</span>
+      <h3>AI membentuk keyword</h3>
+      <p>DeepSeek membantu mengubah kalimat pengguna menjadi kata kunci pencarian yang lebih terarah.</p>
+    </article>
+    <article class="process-card">
+      <span class="process-step">3</span>
+      <h3>API buku menampilkan hasil</h3>
+      <p>OpenLibrary mengirimkan data buku, lalu website menampilkan hasil yang bisa dibuka dan disimpan.</p>
+    </article>
+  </div>
+</section>
+
+<section class="section about-team">
+  <div class="section-header">
+    <div>
+      <h2 class="section-title">tim pengembang</h2>
+      <p class="section-sub">Setiap anggota berkontribusi pada bagian yang berbeda agar aplikasi berjalan utuh.</p>
+    </div>
+  </div>
+
+  <div class="team-grid">
+    <article class="profile-card">
+      <div class="profile-avatar profile-avatar--default">RD</div>
+      <div class="profile-body">
+        <span class="profile-role">Database</span>
+        <h3 class="profile-name">Rahmad Dani</h3>
+        <p class="profile-bio">Mengelola struktur database, relasi data, dan migrasi agar wishlist, histori, serta feedback tersimpan dengan rapi.</p>
+      </div>
+    </article>
+
+    <article class="profile-card">
+      <div class="profile-avatar profile-avatar--default">ZS</div>
+      <div class="profile-body">
+        <span class="profile-role">Frontend</span>
+        <h3 class="profile-name">Zhico Saputra</h3>
+        <p class="profile-bio">Membangun tampilan halaman, komponen kartu buku, dan interaksi pengguna agar website nyaman digunakan.</p>
+      </div>
+    </article>
+
+    <article class="profile-card">
+      <div class="profile-avatar profile-avatar--default">A</div>
+      <div class="profile-body">
+        <span class="profile-role">Backend</span>
+        <h3 class="profile-name">Alif</h3>
+        <p class="profile-bio">Mengembangkan endpoint API, autentikasi, integrasi OpenLibrary, dan logika AI Search pada sisi server.</p>
+      </div>
+    </article>
+
+    <article class="profile-card">
+      <div class="profile-avatar profile-avatar--default">K</div>
+      <div class="profile-body">
+        <span class="profile-role">Ide &amp; Struktur</span>
+        <h3 class="profile-name">Krisna</h3>
+        <p class="profile-bio">Menyusun konsep aplikasi, alur halaman, dan pembagian fitur agar BookAI punya arah yang jelas.</p>
+      </div>
+    </article>
+
+    <article class="profile-card">
+      <div class="profile-avatar profile-avatar--default">R</div>
+      <div class="profile-body">
+        <span class="profile-role">QA &amp; Dokumentasi</span>
+        <h3 class="profile-name">Ramzy</h3>
+        <p class="profile-bio">Menguji fitur, memeriksa tampilan, menyiapkan dokumentasi, dan membantu kebutuhan demo aplikasi.</p>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="section about-closing">
+  <div class="closing-panel">
+    <h2>Tujuan kami</h2>
+    <p>BookAI tidak hanya menampilkan daftar buku, tetapi membantu pengguna memulai dari kebutuhan sederhana lalu menemukan bacaan yang lebih tepat. Dengan kombinasi AI, API, dan fitur favorit, aplikasi ini dirancang sebagai pengalaman pencarian buku yang praktis untuk tugas web lanjut.</p>
+  </div>
+</section>
+{% endblock %}

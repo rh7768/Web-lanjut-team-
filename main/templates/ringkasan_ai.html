@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block title %}Ringkasan AI{% endblock %}
+
+{% block content %}
+
+<section class="ai-hero">
+
+<span class="badge">Powered by BookAI</span>
+
+<h1>Ringkasan Buku<br>dengan AI</h1>
+
+<p>
+    Dapatkan ringkasan buku secara otomatis menggunakan AI.
+    Hemat waktu dan pahami inti buku dalam hitungan detik.
+</p>
+
+<form method="POST" class="search-form">
+    {% csrf_token %}
+
+    <input
+        type="text"
+        name="judul"
+        placeholder="Masukkan judul buku..."
+        value="{{ book_title }}"
+        required
+    >
+
+    <button type="submit">
+        Buat Ringkasan
+    </button>
+</form>
+
+</section>
+
+{% if summary %}
+
+<div class="result-container">
+
+<!-- COVER BUKU -->
+<div
+    class="book-preview-card book-preview-card--clickable"
+    role="button"
+    tabindex="0"
+    onclick='openBookModal({
+        key: "ai-{{ book_title|escapejs }}",
+        title: "{{ book_title|escapejs }}",
+        author: "{{ book_author|default:"AI Summary"|escapejs }}",
+        year: "{{ book_year|default:""|escapejs }}",
+        language: "{{ book_language|default:""|escapejs }}",
+        cover_url: "{{ cover_url|default:""|escapejs }}",
+        description: "Ringkasan buku yang dihasilkan AI berdasarkan judul yang dimasukkan.",
+        is_favorite: true
+    })'
+    onkeydown="if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); this.click(); }"
+>
+
+    {% if cover_url %}
+        <img
+            src="{{ cover_url }}"
+            alt="{{ book_title }}"
+            class="book-cover"
+        >
+    {% else %}
+        <img
+            src="https://via.placeholder.com/220x320?text=No+Cover"
+            alt="No Cover"
+            class="book-cover"
+        >
+    {% endif %}
+
+    <div class="book-info">
+        <h3>{{ book_title }}</h3>
+
+        <p>
+            Ringkasan buku yang dihasilkan AI berdasarkan judul yang dimasukkan.
+        </p>
+
+        <a href="{% url 'favorites' %}" class="btn-favorite-ai" onclick="event.stopPropagation()">
+            ❤️ Lihat Ringkasan Tersimpan
+        </a>
+
+    </div>
+
+</div>
+
+<!-- HASIL AI -->
+<div class="ai-result-card">
+
+    <div class="ai-result-header">
+
+        <div>
+            <h3>✨ Ringkasan AI</h3>
+            <span>Dihasilkan oleh Gemini AI</span>
+        </div>
+
+        <div class="ai-status">
+            ✓ Selesai
+        </div>
+
+    </div>
+
+    <div class="summary-section">
+
+        <h4>📖 Judul Buku</h4>
+
+        <div class="book-title-box">
+            {{ book_title }}
+        </div>
+
+    </div>
+
+    <div class="summary-section">
+
+        <h4>📝 Ringkasan</h4>
+
+        <div class="summary-content">
+            {{ summary }}
+        </div>
+
+    </div>
+
+    {% if points %}
+    <div class="important-section">
+
+        <h4>🎯 Poin Penting</h4>
+
+        {% for point in points %}
+        <div class="point-item">
+            {{ point }}
+        </div>
+        {% endfor %}
+
+    </div>
+    {% endif %}
+
+    {% if targets %}
+    <div class="important-section">
+
+        <h4>👥 Cocok Untuk</h4>
+
+        <div class="target-wrapper">
+
+            {% for target in targets %}
+            <span class="target-tag">
+                {{ target }}
+            </span>
+            {% endfor %}
+
+        </div>
+
+    </div>
+    {% endif %}
+
+</div>
+
+</div>
+{% endif %}
+
+{% endblock %}
